@@ -58,7 +58,7 @@ public class FileSource implements IOSource
         }
         catch (FileNotFoundException e)
         {
-            throw new RuntimeException("Cannot read from FileSource");
+            throw new RuntimeException("Cannot read from " + file.getAbsolutePath(), e);
         }
     }
 
@@ -67,11 +67,16 @@ public class FileSource implements IOSource
     {
         try
         {
+            if (!file.getParentFile().exists())
+            {
+                file.getParentFile().mkdirs();
+            }
+
             return new FileOutputStream(file);
         }
         catch (FileNotFoundException e)
         {
-            throw new RuntimeException("Cannot write to FileSource");
+            throw new RuntimeException("Cannot write in " + file.getAbsolutePath(), e);
         }
     }
 
