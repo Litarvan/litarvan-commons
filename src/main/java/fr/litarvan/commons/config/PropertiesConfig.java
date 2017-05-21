@@ -18,9 +18,8 @@
  */
 package fr.litarvan.commons.config;
 
+import fr.litarvan.commons.io.IOSource;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Properties;
 
@@ -82,7 +81,7 @@ public class PropertiesConfig extends FileConfig
 
         try
         {
-            properties.load(new FileInputStream(file));
+            properties.load(file.provideInput());
         }
         catch (IOException e)
         {
@@ -97,11 +96,36 @@ public class PropertiesConfig extends FileConfig
     {
         try
         {
-            properties.store(new FileOutputStream(file), "Krobot generated config\n");
+            properties.store(file.provideOutput(), "Krobot generated config\n");
         }
         catch (IOException e)
         {
             throw new RuntimeException("Can't save config", e);
+        }
+
+        return this;
+    }
+
+    @Override
+    public FileConfig defaultIn(IOSource source)
+    {
+        if (file.exists())
+        {
+            return this;
+        }
+
+        if (!source.exists())
+        {
+            throw new RuntimeException("Default file doesn't exist");
+        }
+
+        try
+        {
+            properties.load(source.provideInput());
+        }
+        catch (IOException e)
+        {
+            throw new RuntimeException("Can't read default config", e);
         }
 
         return this;

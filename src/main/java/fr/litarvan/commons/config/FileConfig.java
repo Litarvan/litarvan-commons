@@ -18,6 +18,7 @@
  */
 package fr.litarvan.commons.config;
 
+import fr.litarvan.commons.io.IOSource;
 import java.io.File;
 
 /**
@@ -40,7 +41,7 @@ public abstract class FileConfig implements Config
     /**
      * The config file
      */
-    protected File file;
+    protected IOSource file;
 
     /**
      * Empty config, no file set, can't save until set.
@@ -56,18 +57,28 @@ public abstract class FileConfig implements Config
      */
     public FileConfig(File file)
     {
-        this.in(file);
+        this(IOSource.file(file));
+    }
 
-        if (file != null && file.exists())
+    /**
+     * Config from a source, if it exists, config will be loaded from it.
+     *
+     * @param source The source of the config
+     */
+    public FileConfig(IOSource source)
+    {
+        this.in(source);
+
+        if (source != null && source.exists())
         {
             this.load();
         }
     }
 
     /**
-     * @return The file of the config
+     * @return The source of the config
      */
-    public File getFile()
+    public IOSource getFile()
     {
         return file;
     }
@@ -80,6 +91,18 @@ public abstract class FileConfig implements Config
      * @return This
      */
     public FileConfig in(File file)
+    {
+        return in(IOSource.file(file));
+    }
+
+    /**
+     * Define the file of the config
+     *
+     * @param file The config file
+     *
+     * @return This
+     */
+    public FileConfig in(IOSource file)
     {
         this.file = file;
         return this;
@@ -131,4 +154,25 @@ public abstract class FileConfig implements Config
      * @return This
      */
     public abstract FileConfig save();
+
+    /**
+     * Provide a default configuration from a file
+     *
+     * @param file The default configuration
+     *
+     * @return This
+     */
+    public FileConfig defaultIn(File file)
+    {
+        return defaultIn(IOSource.file(file));
+    }
+
+    /**
+     * Provide a default configuration
+     *
+     * @param source The source of the default configuration
+     *
+     * @return This
+     */
+    public abstract FileConfig defaultIn(IOSource source);
 }

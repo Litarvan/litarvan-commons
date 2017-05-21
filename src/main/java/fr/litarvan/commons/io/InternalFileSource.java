@@ -16,52 +16,58 @@
  * You should have received a copy of the GNU General Public License
  * along with Litarvan Common.  If not, see <http://www.gnu.org/licenses/>.
  */
-package fr.litarvan.commons.crash;
+package fr.litarvan.commons.io;
 
-import java.util.function.BiFunction;
+import java.io.InputStream;
+import java.io.OutputStream;
 
 /**
- * Report field<br><br>
+ * Internal file jar source<br><br>
  *
  *
- * A simple report field with a constant key and a BiFunction
- * to generate the value.<br><br>
- *
- * Example :
- * <pre>
- *     handler.addField(new ReportField("Time", (handler, throwable) -&gt; new Date().toString());
- * </pre>
+ * A file source from a file in the classpath.
  *
  * @author Litarvan
  * @version 1.0.0
  * @since 1.0.0
  */
-public class ReportField implements IReportField
+public class InternalFileSource implements IOSource
 {
-    private String key;
-    private BiFunction<ExceptionHandler, Throwable, String> valueGenerator;
+    private String path;
 
     /**
-     * The field
+     * The internal file source
      *
-     * @param key The field key
-     * @param valueGenerator The field value generator
+     * @param path The path of the resource
      */
-    public ReportField(String key, BiFunction<ExceptionHandler, Throwable, String> valueGenerator)
+    public InternalFileSource(String path)
     {
-        this.key = key;
-        this.valueGenerator = valueGenerator;
+        this.path = "/" + (path.startsWith("/") ? path.substring(1) : path);
     }
 
     @Override
-    public String getKey()
+    public InputStream provideInput()
     {
-        return this.key;
+        return getClass().getResourceAsStream(path);
     }
 
     @Override
-    public String generateValue(ExceptionHandler handler, Throwable t)
+    public OutputStream provideOutput()
     {
-        return valueGenerator.apply(handler, t);
+        throw new UnsupportedOperationException("Cannot write to internal file source");
+    }
+
+    @Override
+    public boolean exists()
+    {
+        return getClass().getResource(path) != null;
+    }
+
+    /**
+     * @return The path of the resource
+     */
+    public String getPath()
+    {
+        return path;
     }
 }

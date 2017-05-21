@@ -36,11 +36,10 @@ import javax.inject.Singleton;
  * @version 1.0.0
  * @since 1.0.0
  */
-@Singleton
 public interface App
 {
     /**
-     * @return The application naùe
+     * @return The application name
      */
     String getName();
 

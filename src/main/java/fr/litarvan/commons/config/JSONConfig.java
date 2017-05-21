@@ -24,9 +24,10 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
 import com.google.gson.JsonParser;
-import java.io.File;
+import fr.litarvan.commons.io.IOSource;
 import java.io.IOException;
-import java.nio.file.Files;
+import java.nio.charset.Charset;
+import org.apache.commons.io.IOUtils;
 
 /**
  * The JSON Config<br><br>
@@ -50,7 +51,7 @@ public class JSONConfig extends FileConfig
         super();
     }
 
-    public JSONConfig(File file)
+    public JSONConfig(IOSource file)
     {
         super(file);
     }
@@ -63,16 +64,21 @@ public class JSONConfig extends FileConfig
             throw new IllegalStateException("Config file isn't defined");
         }
 
+        config = read(file);
+
+        return this;
+    }
+
+    private JsonObject read(IOSource source)
+    {
         try
         {
-            config = new JsonParser().parse(String.join("", Files.readAllLines(file.toPath()))).getAsJsonObject();
+            return new JsonParser().parse(IOUtils.toString(source.provideInput(), Charset.defaultCharset())).getAsJsonObject();
         }
         catch (IOException e)
         {
             throw new RuntimeException("Can't read config", e);
         }
-
-        return this;
     }
 
     @Override
@@ -80,12 +86,30 @@ public class JSONConfig extends FileConfig
     {
         try
         {
-            Files.write(file.toPath(), gson.toJson(config).getBytes());
+            IOUtils.write(gson.toJson(config), file.provideOutput(), Charset.defaultCharset());
         }
         catch (IOException e)
         {
             throw new RuntimeException("Can't save the config", e);
         }
+
+        return this;
+    }
+
+    @Override
+    public FileConfig defaultIn(IOSource source)
+    {
+        if (file.exists())
+        {
+            return this;
+        }
+
+        if (!source.exists())
+        {
+            throw new RuntimeException("Default file doesn't exist");
+        }
+
+        config = read(source);
 
         return this;
     }

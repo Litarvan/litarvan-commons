@@ -45,16 +45,16 @@ import org.apache.commons.lang3.exception.ExceptionUtils;
  * <pre>
  *     ExceptionHandler handler = new ExceptionHandler(myApp);
  *
- *     handler.trigger((handler, throwable, cancel) -> {
+ *     handler.trigger((handler, throwable, cancel) -&gt; {
  *         // Will be called when an exception is caught
  *         cancel.cancel(); // Cancel the crash report creation
  *     });
  *
- *     handler.on(MyException.class, (handler, throwable, cancel) -> {
+ *     handler.on(MyException.class, (handler, throwable, cancel) -&gt; {
  *         // Will be called when a MyException is caugth
  *     });
  *
- *     MyValue result = handler.handler(() -> {
+ *     MyValue result = handler.handler(() -&gt; {
  *         someRiskyThings();
  *         return riskyOperation();
  *     }); // result is null if an exception was triggered
@@ -82,7 +82,7 @@ import org.apache.commons.lang3.exception.ExceptionUtils;
  *     Time : 02/05/17 12:30
  *     Exception : [MyException] My exception message
  *
- *     ======>
+ *     ======&gt;
  *
  *     my.app.MyException : My exception message
  *         at my.app.Thing.riskyOperation(Thing.java:67)

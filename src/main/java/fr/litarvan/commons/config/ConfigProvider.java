@@ -18,6 +18,7 @@
  */
 package fr.litarvan.commons.config;
 
+import fr.litarvan.commons.io.IOSource;
 import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
@@ -78,7 +79,19 @@ public class ConfigProvider
      */
     public FileConfig from(String file)
     {
-        return from(new File(file));
+        return json(file);
+    }
+
+    /**
+     * Create a config from a file path with the given name.
+     *
+     * @param file The path of the config file
+     *
+     * @return A {@link JSONConfig} of this file.
+     */
+    public FileConfig from(String file, String name)
+    {
+        return json(file, name);
     }
 
     /**
@@ -95,15 +108,53 @@ public class ConfigProvider
     }
 
     /**
-     * Create a JSON config with the given name.
+     * Create a config from a file with the given name.
      *
+     * @param file The path of the config file
+     *
+     * @return A {@link JSONConfig} of this file.
+     */
+    public FileConfig from(File file, String name)
+    {
+        return json(file, name);
+    }
+
+    /**
+     * Create a config from a file source with the given name.
+     *
+     * @param source The source of the config file
+     *
+     * @return A {@link JSONConfig} of this file.
+     */
+    public FileConfig from(IOSource source, String name)
+    {
+        return json(source, name);
+    }
+
+    /**
+     * Create a JSON config from a path.<br>
+     * It names will be the file name without the extension.
+     *
+     * @param file The path of the config file
+     *
+     * @return A new {@link JSONConfig}
+     */
+    public JSONConfig json(String file)
+    {
+        return json(new File(file));
+    }
+
+    /**
+     * Create a JSON config from a path with the given name.
+     *
+     * @param file The path of the config file
      * @param name The name of the config
      *
      * @return A new {@link JSONConfig}
      */
-    public JSONConfig json(String name)
+    public JSONConfig json(String file, String name)
     {
-        return register(new JSONConfig(), name);
+        return json(new File(file), name);
     }
 
     /**
@@ -129,7 +180,20 @@ public class ConfigProvider
      */
     public JSONConfig json(File file, String name)
     {
-        return register(new JSONConfig(file), name);
+        return json(IOSource.file(file), name);
+    }
+
+    /**
+     * Create a JSON config from a file source with the given name
+     *
+     * @param source The source of the config file
+     * @param name The name of the config
+     *
+     * @return A new {@link JSONConfig}
+     */
+    public JSONConfig json(IOSource source, String name)
+    {
+        return register(new JSONConfig(source), name);
     }
 
     /**

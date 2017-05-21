@@ -38,9 +38,9 @@ import java.util.function.Consumer;
  *     }
  *
  *
- *     private List&lt;MyEventListener&gt myListeners;
+ *     private List&lt;MyEventListener&gt; myListeners;
  *     ...
- *     if (!Canceller.chain(c -> myListeners.forEach(l -> l.onEvent(c))
+ *     if (!Canceller.chain(c -&gt; myListeners.forEach(l -&gt; l.onEvent(c))
  *     {
  *         // Will trigger if any listener called {@link #cancel()}
  *         return;
@@ -88,7 +88,7 @@ public class Canceller
      *
      * Example :
      * <pre>
-     *     if (!Canceller.chain(c -> listeners.forEach(listener -> listener.onEvent(c)))
+     *     if (!Canceller.chain(c -&gt; listeners.forEach(listener -&gt; listener.onEvent(c)))
      *     {
      *         // Will trigger if an event called {@link #cancel()}
      *         return;

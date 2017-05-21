@@ -26,7 +26,7 @@ package fr.litarvan.commons.crash;
  * Example :
  *
  * <pre>
- *     handler.addField(new ReportField("Type", (handler, throwable) -> throwable.getClass().getSimpleName());
+ *     handler.addField(new ReportField("Type", (handler, throwable) -&gt; throwable.getClass().getSimpleName());
  *
  *     #############################################
  *
