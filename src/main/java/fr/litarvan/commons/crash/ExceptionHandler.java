@@ -57,7 +57,7 @@ import org.apache.commons.lang3.exception.ExceptionUtils;
  *     MyValue result = handler.handler(() -> {
  *         someRiskyThings();
  *         return riskyOperation();
- *     });
+ *     }); // result is null if an exception was triggered
  *
  *     try
  *     {
@@ -67,8 +67,6 @@ import org.apache.commons.lang3.exception.ExceptionUtils;
  *     {
  *         handler.handle(ex); // Manual handling
  *     }
- *
- *     // result is null if an exception was triggered
  * </pre>
  *
  * By default the crash reports are saved to the app root folder,
