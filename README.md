@@ -1,5 +1,40 @@
 # Litarvan's commons
 
+## Setup
+
+### Gradle
+
+```groovy
+repositories {
+    maven {
+        url 'http://litarvan.github.io'
+    }
+}
+
+dependencies {
+    compile 'fr.litarvan.commons:litarvan-commons:1.0.0'
+}
+```
+
+### Maven
+
+```xml
+<repositories>
+    <repository>
+        <id>litarvan</id>
+        <url>http://litarvan.github.io/maven</url>
+    </repository>
+</repositories>
+
+<dependencies>
+    <dependency>
+        <groupId>fr.litarvan.commons</groupId>
+        <artifactId>litarvan-commons</artifactId>
+        <version>1.0.0</version>
+    </dependency>
+</dependencies>
+```
+
 ## App base
 
 ```java
