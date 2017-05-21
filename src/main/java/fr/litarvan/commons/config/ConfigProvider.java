@@ -86,6 +86,7 @@ public class ConfigProvider
      * Create a config from a file path with the given name.
      *
      * @param file The path of the config file
+     * @param name The name of the config
      *
      * @return A {@link JSONConfig} of this file.
      */
@@ -111,6 +112,7 @@ public class ConfigProvider
      * Create a config from a file with the given name.
      *
      * @param file The path of the config file
+     * @param name The name of the config
      *
      * @return A {@link JSONConfig} of this file.
      */
@@ -123,6 +125,7 @@ public class ConfigProvider
      * Create a config from a file source with the given name.
      *
      * @param source The source of the config file
+     * @param name The name of the config
      *
      * @return A {@link JSONConfig} of this file.
      */
