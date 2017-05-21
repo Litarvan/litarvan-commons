@@ -128,6 +128,8 @@ public class PropertiesConfig extends FileConfig
             throw new RuntimeException("Can't read default config", e);
         }
 
+        save();
+
         return this;
     }
 }

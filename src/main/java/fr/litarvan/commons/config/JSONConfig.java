@@ -110,6 +110,7 @@ public class JSONConfig extends FileConfig
         }
 
         config = read(source);
+        save();
 
         return this;
     }
