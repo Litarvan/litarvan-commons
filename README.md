@@ -205,3 +205,25 @@ public interface MyListener
     void onEvent(Canceller canceller);
 }
 ```
+
+## IO source
+
+```java
+import fr.litarvan.commons.io.IOSource;
+
+import java.io.File;
+import java.io.InputStream;
+import java.io.OutputStream;
+
+IOSource source = IOSource.file("my/file.txt");
+                = IOSource.internal("/fr/litarvan/my/file.txt");
+                = IOSource.file(new File("my/file.txt"));
+                = IOSource.at("/fr/litarvan/my/file.txt");
+                = IOSource.at("my/file.txt");
+                        
+if (source.exists())
+{
+    InputStream in = source.provideInput();
+    OutputStream out = source.provideOutput();
+}
+```
