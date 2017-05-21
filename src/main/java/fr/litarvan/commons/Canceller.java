@@ -106,6 +106,6 @@ public class Canceller
         Canceller canceller = new Canceller();
         action.accept(canceller);
 
-        return canceller.isCancelled();
+        return !canceller.isCancelled();
     }
 }

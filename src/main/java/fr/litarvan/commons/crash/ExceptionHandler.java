@@ -21,6 +21,9 @@ package fr.litarvan.commons.crash;
 import fr.litarvan.commons.App;
 import fr.litarvan.commons.Canceller;
 import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.nio.charset.Charset;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -30,6 +33,8 @@ import java.util.Map;
 import java.util.concurrent.Callable;
 import javax.inject.Inject;
 import javax.inject.Singleton;
+import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 
 /**
@@ -178,13 +183,22 @@ public class ExceptionHandler
 
         String report = makeCrashReport(throwable);
 
-        System.err.println("##! Exception caught !##\n");
+        System.err.println("\n##! Exception caught !##\n");
         System.err.println(report);
 
         if (crashFolder != null)
         {
             File file = new File(crashFolder, "crash-" + System.currentTimeMillis());
             System.err.println("=> Saving crash report to " + file.getAbsolutePath());
+
+            try
+            {
+                FileUtils.write(file, report, Charset.defaultCharset());
+            }
+            catch (IOException e)
+            {
+                throw new RuntimeException("Couldn't save the crash report !", e);
+            }
         }
     }
 
@@ -209,7 +223,12 @@ public class ExceptionHandler
             spacing.append(" ");
         }
 
-        fields.forEach(field -> result.append(field.getKey()).append(spacing).append(": ").append(field.generateValue(this, throwable)).append("\n"));
+        fields.forEach(field -> {
+            String key = field.getKey();
+            String value = field.generateValue(this, throwable);
+
+            result.append(key).append(spacing.substring(key.length())).append(": ").append(value).append("\n");
+        });
 
         result.append("\n======>\n\n");
 
