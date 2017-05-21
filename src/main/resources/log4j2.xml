@@ -13,7 +13,7 @@
         </Async>
     </Appenders>
     <Loggers>
-        <Root level="debug">
+        <Root level="info">
             <AppenderRef ref="Console"/>
             <AppenderRef ref="AsyncLogs"/>
         </Root>
