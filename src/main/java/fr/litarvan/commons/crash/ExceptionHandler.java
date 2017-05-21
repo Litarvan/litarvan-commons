@@ -129,7 +129,7 @@ public class ExceptionHandler
 
         this.addField(new ConstantReportField("Version", app.getVersion()))
             .addField(new ReportField("Time", (handler, t) -> new SimpleDateFormat().format(new Date())))
-            .addField(new ReportField("Exception", (handler, t) -> "[" + t.getClass() + "] " + t.getMessage()));
+            .addField(new ReportField("Exception", (handler, t) -> "[" + t.getClass().getName() + "] " + t.getMessage()));
     }
 
     public ExceptionHandler trigger(ExceptionTrigger trigger)
